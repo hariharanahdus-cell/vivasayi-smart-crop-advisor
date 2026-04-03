@@ -1,0 +1,387 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Input Form — Smart Crop Advisor</title>
+  <meta name="description" content="Enter your soil data, weather conditions, and location to get an intelligent crop yield and profit prediction." />
+  <link rel="stylesheet" href="css/style.css" />
+  <style>
+    .page-hero {
+      padding: 60px 0 40px;
+      text-align: center;
+    }
+    .page-hero-title {
+      font-family: 'Outfit', sans-serif;
+      font-size: 2.4rem;
+      font-weight: 700;
+      margin-bottom: 10px;
+    }
+
+    .form-layout {
+      display: grid;
+      grid-template-columns: 1fr 320px;
+      gap: 28px;
+      padding-bottom: 80px;
+    }
+
+    .form-card { padding: 36px; }
+    .form-section-title {
+      font-family: 'Outfit', sans-serif;
+      font-size: 1rem;
+      font-weight: 600;
+      color: var(--text-secondary);
+      text-transform: uppercase;
+      letter-spacing: 0.07em;
+      margin-bottom: 20px;
+      padding-bottom: 10px;
+      border-bottom: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .col-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 18px; }
+    .col-3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 18px; }
+
+    /* Sidebar */
+    .sidebar-card { position: sticky; top: 90px; }
+    .sidebar-body { padding: 28px; }
+    .sidebar-section { margin-bottom: 28px; }
+    .sidebar-section:last-child { margin-bottom: 0; }
+    .sidebar-label {
+      font-size: 0.78rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.07em;
+      color: var(--text-muted);
+      margin-bottom: 12px;
+    }
+    .tip-item {
+      display: flex;
+      gap: 10px;
+      margin-bottom: 10px;
+      font-size: 0.85rem;
+      color: var(--text-secondary);
+      line-height: 1.5;
+    }
+    .tip-item b { color: var(--text-primary); }
+
+    .history-list { display: flex; flex-direction: column; gap: 8px; }
+    .no-history { font-size: 0.84rem; color: var(--text-muted); font-style: italic; }
+
+    /* Location button */
+    .location-wrap { display: flex; gap: 10px; }
+    .location-wrap .form-control { flex: 1; }
+    .btn-locate {
+      flex-shrink: 0;
+      padding: 12px 14px;
+      background: rgba(96,165,250,0.12);
+      border: 1px solid rgba(96,165,250,0.25);
+      border-radius: var(--radius-md);
+      color: var(--blue-400);
+      cursor: pointer;
+      transition: var(--transition);
+      font-size: 1.1rem;
+      line-height: 1;
+    }
+    .btn-locate:hover { background: rgba(96,165,250,0.2); transform: scale(1.05); }
+
+    /* Submit area */
+    .submit-bar {
+      margin-top: 32px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      flex-wrap: wrap;
+    }
+    .submit-note { font-size: 0.82rem; color: var(--text-muted); }
+
+    @media (max-width: 900px) {
+      .form-layout { grid-template-columns: 1fr; }
+      .sidebar-card { position: static; }
+    }
+    @media (max-width: 640px) {
+      .col-2, .col-3 { grid-template-columns: 1fr; }
+      .form-card { padding: 22px; }
+      .page-hero-title { font-size: 1.8rem; }
+    }
+  </style>
+</head>
+<body>
+
+<div class="bg-orbs">
+  <div class="orb orb-1"></div>
+  <div class="orb orb-2"></div>
+  <div class="orb orb-3"></div>
+</div>
+
+<!-- Navbar -->
+<nav class="navbar">
+  <div class="container">
+    <a href="index.html" class="nav-logo">🌱 Smart<span>Crop</span></a>
+    <div class="nav-links" id="navLinks">
+      <a href="index.html">Home</a>
+      <a href="form.html" class="active">Get Prediction</a>
+    </div>
+    <div class="hamburger" id="hamburger" onclick="toggleNav()">
+      <span></span><span></span><span></span>
+    </div>
+  </div>
+</nav>
+
+<!-- Loading Spinner -->
+<div class="spinner-overlay" id="spinnerOverlay">
+  <div class="spinner"></div>
+  <p class="spinner-text">Analysing your field data…</p>
+</div>
+
+<!-- Toast -->
+<div class="toast" id="toast"></div>
+
+<!-- Page header -->
+<div class="page-hero">
+  <div class="container">
+    <div class="badge badge-green mb-4">📋 Field Data Input</div>
+    <h1 class="page-hero-title">Enter Your Field Details</h1>
+    <p class="section-subtitle">Fill in the form below to get crop yield prediction and profit estimates.</p>
+  </div>
+</div>
+
+<div class="container">
+  <div class="form-layout">
+
+    <!-- ── Main Form ── -->
+    <div class="card form-card fade-up">
+      <form id="cropForm" novalidate>
+
+        <!-- Soil Information -->
+        <div class="form-section-title">🌍 Soil Information</div>
+        <div class="col-2">
+          <div class="form-group">
+            <label class="form-label" for="soilType">Soil Type <span class="required">*</span></label>
+            <select class="form-control" id="soilType" name="soilType" required>
+              <option value="">Select soil type…</option>
+              <optgroup label="Common Textural Classes">
+                <option value="sandy">Sandy Soil</option>
+                <option value="clay">Clay Soil</option>
+                <option value="loamy">Loamy Soil</option>
+                <option value="sandy_loam">Sandy Loam</option>
+                <option value="clay_loam">Clay Loam</option>
+                <option value="silty_clay">Silty Clay</option>
+                <option value="silty">Silty Soil</option>
+                <option value="chalky">Chalky / Calcareous Soil</option>
+              </optgroup>
+              <optgroup label="Regional & Global Classifications">
+                <option value="alluvial">Alluvial Soil</option>
+                <option value="black">Black (Cotton) / Vertisol</option>
+                <option value="red">Red Soil</option>
+                <option value="laterite">Laterite Soil</option>
+                <option value="saline">Saline Soil</option>
+                <option value="peaty">Peaty / Histosol</option>
+                <option value="volcanic">Volcanic / Andisol</option>
+                <option value="podzol">Podzol / Spodosol</option>
+                <option value="mollisol">Mollisol / Prairie Soil</option>
+                <option value="aridisol">Aridisol / Desert Soil</option>
+                <option value="oxisol">Oxisol / Tropical Weathered</option>
+                <option value="gelisol">Gelisol / Tundra Soil</option>
+              </optgroup>
+              <optgroup label="Mixed & Regional Combinations">
+                <option value="red_loamy">Red Loamy Soil</option>
+                <option value="red_clay">Red Clay Soil</option>
+                <option value="red_sandy">Red Sandy Soil</option>
+                <option value="black_clay">Black Clay Soil</option>
+                <option value="black_loamy">Black Loamy Soil</option>
+                <option value="alluvial_loam">Alluvial Loam</option>
+                <option value="alluvial_clay">Alluvial Clay</option>
+                <option value="lateritic_gravel">Lateritic Gravel</option>
+                <option value="calcareous_clay">Calcareous Clay</option>
+                <option value="silty_sand">Silty Sand</option>
+              </optgroup>
+            </select>
+            <span class="form-error">Please select a soil type.</span>
+          </div>
+          <div class="form-group">
+            <label class="form-label" for="soilPH">Soil pH <span class="required">*</span></label>
+            <div class="input-group">
+              <input class="form-control" type="number" id="soilPH" name="soilPH"
+                placeholder="e.g. 6.5" min="0" max="14" step="0.1" required />
+              <span class="input-group-suffix">pH</span>
+            </div>
+            <span class="form-hint">Typical range: 5.5 – 7.5</span>
+            <span class="form-error">Enter a valid pH (0–14).</span>
+          </div>
+        </div>
+
+        <!-- NPK Nutrients -->
+        <div class="form-section-title" style="margin-top:8px">🧪 Primary Nutrients (kg/ha)</div>
+        <div class="col-3">
+          <div class="form-group">
+            <label class="form-label" for="N">Nitrogen (N) <span class="required">*</span></label>
+            <div class="input-group">
+              <input class="form-control" type="number" id="N" name="N"
+                placeholder="e.g. 80" min="0" max="1500" step="1" required />
+              <span class="input-group-suffix">kg</span>
+            </div>
+            <span class="form-error">Enter nitrogen (0–1500).</span>
+          </div>
+          <div class="form-group">
+            <label class="form-label" for="P">Phosphorus (P) <span class="required">*</span></label>
+            <div class="input-group">
+              <input class="form-control" type="number" id="P" name="P"
+                placeholder="e.g. 40" min="0" max="1500" step="1" required />
+              <span class="input-group-suffix">kg</span>
+            </div>
+            <span class="form-error">Enter phosphorus (0–1500).</span>
+          </div>
+          <div class="form-group">
+            <label class="form-label" for="K">Potassium (K) <span class="required">*</span></label>
+            <div class="input-group">
+              <input class="form-control" type="number" id="K" name="K"
+                placeholder="e.g. 40" min="0" max="1500" step="1" required />
+              <span class="input-group-suffix">kg</span>
+            </div>
+            <span class="form-error">Enter potassium (0–1500).</span>
+          </div>
+        </div>
+
+        <!-- Secondary Nutrients -->
+        <div class="form-section-title" style="margin-top:8px">🧱 Secondary Nutrients (kg/ha)</div>
+        <div class="col-3">
+          <div class="form-group">
+            <label class="form-label" for="Ca">Calcium (Ca)</label>
+            <div class="input-group">
+              <input class="form-control" type="number" id="Ca" name="Ca"
+                placeholder="e.g. 20" min="0" max="1500" step="1" value="0" />
+              <span class="input-group-suffix">kg</span>
+            </div>
+            <span class="form-error">Enter calcium (0–1500).</span>
+          </div>
+          <div class="form-group">
+            <label class="form-label" for="Mg">Magnesium (Mg)</label>
+            <div class="input-group">
+              <input class="form-control" type="number" id="Mg" name="Mg"
+                placeholder="e.g. 10" min="0" max="1500" step="1" value="0" />
+              <span class="input-group-suffix">kg</span>
+            </div>
+            <span class="form-error">Enter magnesium (0–1500).</span>
+          </div>
+          <div class="form-group">
+            <label class="form-label" for="S">Sulfur (S)</label>
+            <div class="input-group">
+              <input class="form-control" type="number" id="S" name="S"
+                placeholder="e.g. 15" min="0" max="1500" step="1" value="0" />
+              <span class="input-group-suffix">kg</span>
+            </div>
+            <span class="form-error">Enter sulfur (0–1500).</span>
+          </div>
+        </div>
+
+        <!-- Weather & Location -->
+        <div class="form-section-title" style="margin-top:8px">🌤️ Weather & Location</div>
+        <div class="col-2">
+          <div class="form-group">
+            <label class="form-label" for="temperature">Temperature <span class="required">*</span></label>
+            <div class="input-group">
+              <input class="form-control" type="number" id="temperature" name="temperature"
+                placeholder="e.g. 28" min="-10" max="55" step="0.5" required />
+              <span class="input-group-suffix">°C</span>
+            </div>
+            <span class="form-error">Enter temperature (-10 to 55 °C).</span>
+          </div>
+          <div class="form-group">
+            <label class="form-label" for="rainfall">Annual Rainfall <span class="required">*</span></label>
+            <div class="input-group">
+              <input class="form-control" type="number" id="rainfall" name="rainfall"
+                placeholder="e.g. 1200" min="0" max="5000" step="1" required />
+              <span class="input-group-suffix">mm</span>
+            </div>
+            <span class="form-error">Enter rainfall (0–5000 mm).</span>
+          </div>
+        </div>
+
+        <div class="col-2">
+          <div class="form-group">
+            <label class="form-label" for="startMonth">Start Month <span class="required">*</span></label>
+            <input class="form-control" type="text" id="startMonth" name="startMonth" placeholder="e.g. 6 or June" required />
+            <span class="form-error">Type valid month.</span>
+          </div>
+          <div class="form-group">
+            <label class="form-label" for="endMonth">End Month <span class="required">*</span></label>
+            <input class="form-control" type="text" id="endMonth" name="endMonth" placeholder="e.g. 10 or October" required />
+            <span class="form-error">Type valid month.</span>
+          </div>
+        </div>
+
+        <div class="col-2">
+          <div class="form-group">
+            <label class="form-label" for="location">Location / Village</label>
+            <div class="location-wrap">
+              <input class="form-control" type="text" id="location" name="location"
+                placeholder="e.g. Nashik" />
+              <button type="button" class="btn-locate" id="btnLocate" title="Auto-detect location">📍</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Submit -->
+        <div class="submit-bar">
+          <p class="submit-note">⚡ Results appear instantly — no sign-up required.</p>
+          <div style="display:flex;gap:12px">
+            <button type="button" class="btn btn-outline" id="btnReset">↺ Reset</button>
+            <button type="submit" class="btn btn-primary" id="btnSubmit">
+              🔍 Predict Yield & Profit
+            </button>
+          </div>
+        </div>
+      </form>
+    </div>
+
+    <!-- ── Sidebar ── -->
+    <div class="card sidebar-card fade-up fade-up-delay-2">
+      <div class="sidebar-body">
+
+        <!-- Tips -->
+        <div class="sidebar-section">
+          <div class="sidebar-label">💡 Input Tips</div>
+          <div class="tip-item">🌍 <span><b>Sandy soil</b> is well-drained; great for groundnut and mustard.</span></div>
+          <div class="tip-item">🟫 <span><b>Clay soil</b> retains moisture; rice and sugarcane thrive.</span></div>
+          <div class="tip-item">🟢 <span><b>Loamy soil</b> is ideal for most crops — balanced drainage.</span></div>
+          <div class="tip-item">🧪 <span>Balanced <b>NPK</b> (≈80:40:40 kg/ha) gives best results.</span></div>
+          <div class="tip-item">🌡️ <span><b>Temperature</b>: enter average daytime temperature for your area.</span></div>
+          <div class="tip-item">🌧️ <span><b>Rainfall</b>: enter expected total during the growing season.</span></div>
+        </div>
+
+        <div class="divider" style="margin:16px 0"></div>
+
+        <!-- Saved History -->
+        <div class="sidebar-section">
+          <div class="sidebar-label" style="display:flex;justify-content:space-between;align-items:center">
+            <span>📁 Recent Predictions</span>
+            <button id="btnClearHistory" class="btn btn-sm btn-outline" style="padding:4px 10px;font-size:0.72rem" title="Clear history">Clear</button>
+          </div>
+          <div class="history-list" id="historyList">
+            <p class="no-history">No saved predictions yet.</p>
+          </div>
+        </div>
+
+        <div style="margin-top:20px;padding-top:16px;border-top:1px solid var(--border)">
+          <p style="font-size:0.78rem;color:var(--text-muted);line-height:1.6">
+            📊 Predictions use a rule-based model considering soil type, NPK values, season, temperature, rainfall, and pH for accuracy.
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<footer class="footer">
+  <div class="container"><p>🌾 Smart Crop Advisor &nbsp;·&nbsp; Built to empower Indian farmers</p></div>
+</footer>
+
+<script src="js/app.js"></script>
+<script>
+  function toggleNav() { document.getElementById('navLinks').classList.toggle('open'); }
+</script>
+</body>
+</html>

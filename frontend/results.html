@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Prediction Results — Smart Crop Advisor</title>
+  <meta name="description" content="View your personalised crop yield prediction, estimated profit, and top crop recommendations." />
+  <link rel="stylesheet" href="css/style.css" />
+  <!-- Chart.js CDN -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.3/dist/chart.umd.min.js"></script>
+  <style>
+    .results-page { padding: 40px 0 80px; }
+
+    /* Top summary bar */
+    .summary-bar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      margin-bottom: 32px;
+      flex-wrap: wrap;
+    }
+    .summary-bar h1 {
+      font-family: 'Outfit', sans-serif;
+      font-size: 1.9rem;
+      font-weight: 700;
+    }
+    .summary-meta { color: var(--text-muted); font-size: 0.88rem; margin-top: 4px; }
+    .summary-actions { display: flex; gap: 10px; }
+
+    /* Stats grid */
+    .stats-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 18px; margin-bottom: 28px; }
+
+    /* Recommendations section */
+    .rec-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; margin-top: 28px; }
+    .rec-card {
+      padding: 26px;
+      background: var(--grad-card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      backdrop-filter: blur(12px);
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+      transition: var(--transition);
+    }
+    .rec-card:hover { border-color: var(--border-glow); transform: translateY(-4px); box-shadow: var(--shadow-glow); }
+    .rec-card-header { display: flex; align-items: center; gap: 12px; }
+    .rec-crop-icon { font-size: 2.2rem; }
+    .rec-crop-name { font-family: 'Outfit', sans-serif; font-size: 1.2rem; font-weight: 700; }
+    .rec-crop-tag  { font-size: 0.75rem; color: var(--text-muted); }
+
+    .rec-row { display: flex; justify-content: space-between; align-items: center; font-size: 0.86rem; }
+    .rec-row-label { color: var(--text-secondary); }
+    .rec-row-val   { font-weight: 600; }
+
+    .rec-score-bar { margin-top: 6px; }
+    .rec-score-label { display: flex; justify-content: space-between; font-size: 0.8rem; color: var(--text-muted); margin-bottom: 5px; }
+
+    /* Chart section */
+    .chart-section {
+      margin-top: 28px;
+      padding: 28px;
+      background: var(--grad-card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      backdrop-filter: blur(12px);
+    }
+    .chart-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 20px; flex-wrap: wrap; gap: 10px; }
+    .chart-title  { font-family: 'Outfit', sans-serif; font-size: 1.1rem; font-weight: 600; }
+    .chart-tabs   { display: flex; gap: 6px; }
+    .chart-tab {
+      padding: 6px 14px;
+      border-radius: var(--radius-sm);
+      font-size: 0.82rem;
+      font-weight: 500;
+      cursor: pointer;
+      border: 1px solid var(--border);
+      background: transparent;
+      color: var(--text-secondary);
+      transition: var(--transition);
+    }
+    .chart-tab.active { background: rgba(74,222,128,0.12); color: var(--green-400); border-color: var(--border-glow); }
+
+    /* All crops table */
+    .all-crops-section { margin-top: 28px; }
+    .table-wrap { overflow-x: auto; border-radius: var(--radius-lg); border: 1px solid var(--border); }
+    table { width: 100%; border-collapse: collapse; font-size: 0.875rem; }
+    thead { background: rgba(255,255,255,0.04); }
+    th { padding: 14px 18px; text-align: left; font-size: 0.78rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.06em; color: var(--text-muted); border-bottom: 1px solid var(--border); white-space: nowrap; }
+    td { padding: 14px 18px; border-bottom: 1px solid rgba(255,255,255,0.04); vertical-align: middle; }
+    tbody tr:last-child td { border-bottom: none; }
+    tbody tr:hover { background: rgba(255,255,255,0.03); }
+    .profit-positive { color: var(--green-400); }
+    .profit-negative { color: var(--red-400); }
+
+    /* Input summary panel */
+    .input-summary {
+      margin-top: 28px;
+      padding: 24px;
+      background: var(--grad-card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+    }
+    .input-summary-title { font-family:'Outfit',sans-serif; font-size:1rem; font-weight:600; margin-bottom:16px; }
+    .input-pills { display: flex; flex-wrap: wrap; gap: 10px; }
+    .input-pill {
+      padding: 6px 14px;
+      border-radius: 100px;
+      background: rgba(255,255,255,0.05);
+      border: 1px solid var(--border);
+      font-size: 0.8rem;
+      color: var(--text-secondary);
+    }
+    .input-pill b { color: var(--text-primary); }
+
+    /* Error state */
+    .error-state { text-align: center; padding: 80px 40px; }
+    .error-icon  { font-size: 4rem; margin-bottom: 20px; }
+
+    @media (max-width: 900px) {
+      .stats-grid { grid-template-columns: repeat(2, 1fr); }
+      .rec-grid   { grid-template-columns: 1fr; }
+    }
+    @media (max-width: 580px) {
+      .stats-grid { grid-template-columns: 1fr 1fr; }
+      .summary-bar { flex-direction: column; align-items: flex-start; }
+    }
+  </style>
+</head>
+<body>
+
+<div class="bg-orbs">
+  <div class="orb orb-1"></div>
+  <div class="orb orb-2"></div>
+  <div class="orb orb-3"></div>
+</div>
+
+<!-- Navbar -->
+<nav class="navbar">
+  <div class="container">
+    <a href="index.html" class="nav-logo">🌱 Smart<span>Crop</span></a>
+    <div class="nav-links" id="navLinks">
+      <a href="index.html">Home</a>
+      <a href="form.html">Get Prediction</a>
+      <a href="results.html" class="active">Results</a>
+    </div>
+    <div class="hamburger" onclick="toggleNav()"><span></span><span></span><span></span></div>
+  </div>
+</nav>
+
+<!-- Toast -->
+<div class="toast" id="toast"></div>
+
+<!-- RESULTS CONTENT -->
+<div class="container results-page" id="resultsContainer">
+  <!-- Filled dynamically by JS -->
+  <div class="error-state fade-up" id="loadingState">
+    <div class="spinner" style="margin:0 auto 20px"></div>
+    <p style="color:var(--text-secondary)">Loading your results…</p>
+  </div>
+</div>
+
+<footer class="footer">
+  <div class="container"><p>🌾 Smart Crop Advisor &nbsp;·&nbsp; Built to empower Indian farmers</p></div>
+</footer>
+
+<script src="js/app.js"></script>
+<script>
+  function toggleNav() { document.getElementById('navLinks').classList.toggle('open'); }
+</script>
+</body>
+</html>

@@ -1,0 +1,15 @@
+node_modules/
+.DS_Store
+.env
+dist/
+build/
+.next/
+*.log
+.gemini/
+output.txt
+test_output.md
+output_results.md
+test_final_simplification.js
+final_revenue_check.js
+test_dual_yield.js
+test_dual_yield_fs.js
