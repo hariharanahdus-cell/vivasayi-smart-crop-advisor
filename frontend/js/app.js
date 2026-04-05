@@ -467,9 +467,9 @@ function renderRecCard(c, i) {
         <div>
           <div style="display:flex;align-items:center;gap:8px">
             <div class="rank-badge rank-${i + 1}">${i + 1}</div>
-            <span class="rec-crop-name">${c.name}</span>
+            <span class="rec-crop-name">${c.crop || c.name || '—'}</span>
           </div>
-          <div class="rec-crop-tag">${medals[i]} Rank #${i + 1} Recommendation</div>
+          <div class="rec-crop-tag">${medals[i]} ${window.i18n.t('rank_tag')} #${i + 1}</div>
         </div>
       </div>
 

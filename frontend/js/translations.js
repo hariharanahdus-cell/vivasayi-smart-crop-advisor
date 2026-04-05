@@ -1,6 +1,6 @@
 /**
  * Deep Translation Dictionary (EN / TA)
- * Target: No single English on the page when Tamil is selected.
+ * Target: Zero English.
  */
 const translations = {
   en: {
@@ -54,7 +54,24 @@ const translations = {
     soil_alluvial: "Alluvial Soil",
     soil_red: "Red Soil",
     soil_black: "Black (Cotton) Soil",
-    lang_toggle: "தமிழ்"
+    lang_toggle: "தமிழ்",
+    // Sidebar tips
+    tips_h: "💡 INPUT TIPS",
+    tip_sandy: "Sandy soil is well-drained; great for groundnut and mustard.",
+    tip_clay: "Clay soil retains moisture; rice and sugarcane thrive.",
+    tip_loamy: "Loamy soil is ideal for most crops — balanced drainage.",
+    tip_npk: "Balanced NPK (≈80:40:40 kg/ha) gives best results.",
+    tip_temp: "Temperature: enter average daytime temperature for your area.",
+    tip_rain: "Rainfall: enter expected total during the growing season.",
+    recent_h: "📂 RECENT PREDICTIONS",
+    clear_btn: "Clear",
+    highest_potential: "Highest profit potential",
+    after_cost: "After cultivation cost",
+    tons_per_ha: "Tons per hectare",
+    market_revenue_sub: "Market Revenue",
+    top_3_h: "🏆 Top 3 Recommended Crops",
+    ranked_by: "RANKED BY PROFIT",
+    rank_tag: "Rank Recommendation"
   },
   ta: {
     nav_home: "முகப்பு",
@@ -94,7 +111,7 @@ const translations = {
     btn_new_pred: "🔄 புதிய கணிப்பு",
     best_crop: "சிறந்த பயிர்",
     predicted_yield: "விளைச்சல்",
-    market_revenue: "சந்தை வருவாய்",
+    market_revenue: "வருவாய்",
     net_profit: "நிகர லாபம்",
     ai_advice_header: "AI நிபுணர் ஆலோசனை",
     water: "நீர் மேலாண்மை",
@@ -107,7 +124,24 @@ const translations = {
     soil_alluvial: "ஆற்று வண்டல் மண்",
     soil_red: "செம்மண்",
     soil_black: "கரிசல் மண்",
-    lang_toggle: "English"
+    lang_toggle: "English",
+    // Sidebar tips
+    tips_h: "💡 குறிப்புகள்",
+    tip_sandy: "மணல் மண் வடிகால் வசதி கொண்டது; நிலக்கடலை மற்றும் கடுகிற்கு சிறந்தது.",
+    tip_clay: "களிமண் ஈரப்பதத்தைத் தக்கவைக்கும்; நெல் மற்றும் கரும்பு நன்றாக வளரும்.",
+    tip_loamy: "வண்டல் மண் பெரும்பாலான பயிர்களுக்கு ஏற்றது.",
+    tip_npk: "சீரான NPK (≈80:40:40 kg/ha) சிறந்த பலனைத் தரும்.",
+    tip_temp: "வெப்பநிலை: உங்கள் பகுதியின் சராசரி பகல் நேர வெப்பநிலையை உள்ளிடவும்.",
+    tip_rain: "மழைப்பொழிவு: வளரும் காலத்தில் எதிர்பார்க்கப்படும் மொத்த மழையை உள்ளிடவும்.",
+    recent_h: "📂 சமீபத்திய கணிப்புகள்",
+    clear_btn: "அழி",
+    highest_potential: "அதிக லாப வாய்ப்பு",
+    after_cost: "சாகுபடி செலவுக்குப் பிறகு",
+    tons_per_ha: "ஒரு ஹெக்டேருக்கு டன்கள்",
+    market_revenue_sub: "சந்தை வருவாய்",
+    top_3_h: "🏆 சிறந்த 3 பயிர் பரிந்துரைகள்",
+    ranked_by: "லாபத்தின் அடிப்படையில்",
+    rank_tag: "பரிந்துரை தரம்"
   }
 };
 
@@ -121,19 +155,11 @@ window.i18n = {
   apply: () => {
     document.querySelectorAll('[data-i18n]').forEach(el => {
       const key = el.getAttribute('data-i18n');
-      if (el.tagName === 'INPUT' && el.type === 'placeholder') {
-         // Handle input placeholders later if needed
-      } else {
-         el.textContent = window.i18n.t(key);
-      }
+      el.textContent = window.i18n.t(key);
     });
-
-    // Special: select options
     document.querySelectorAll('option[data-i18n]').forEach(el => {
        el.textContent = window.i18n.t(el.getAttribute('data-i18n'));
     });
-
-    // Translate toggle button specifically
     const btn = document.getElementById('langToggleBtn');
     if (btn) btn.textContent = window.i18n.t('lang_toggle');
   }

@@ -346,13 +346,13 @@
 
         <!-- Tips -->
         <div class="sidebar-section">
-          <div class="sidebar-label">💡 Input Tips</div>
-          <div class="tip-item">🌍 <span><b>Sandy soil</b> is well-drained; great for groundnut and mustard.</span></div>
-          <div class="tip-item">🟫 <span><b>Clay soil</b> retains moisture; rice and sugarcane thrive.</span></div>
-          <div class="tip-item">🟢 <span><b>Loamy soil</b> is ideal for most crops — balanced drainage.</span></div>
-          <div class="tip-item">🧪 <span>Balanced <b>NPK</b> (≈80:40:40 kg/ha) gives best results.</span></div>
-          <div class="tip-item">🌡️ <span><b>Temperature</b>: enter average daytime temperature for your area.</span></div>
-          <div class="tip-item">🌧️ <span><b>Rainfall</b>: enter expected total during the growing season.</span></div>
+          <div class="sidebar-label" data-i18n="tips_h">💡 Input Tips</div>
+          <div class="tip-item">🌍 <span><b data-i18n="soil_sandy">Sandy soil</b> <span data-i18n="tip_sandy">is well-drained; great for groundnut and mustard.</span></span></div>
+          <div class="tip-item">🟫 <span><b data-i18n="soil_clay">Clay soil</b> <span data-i18n="tip_clay">retains moisture; rice and sugarcane thrive.</span></span></div>
+          <div class="tip-item">🟢 <span><b data-i18n="soil_loamy">Loamy soil</b> <span data-i18n="tip_loamy">is ideal for most crops — balanced drainage.</span></span></div>
+          <div class="tip-item">🧪 <span><span data-i18n="tip_npk">Balanced <b>NPK</b> (≈80:40:40 kg/ha) gives best results.</span></span></div>
+          <div class="tip-item">🌡️ <span><b data-i18n="temp_lbl">Temperature</b>: <span data-i18n="tip_temp">enter average daytime temperature for your area.</span></span></div>
+          <div class="tip-item">🌧️ <span><b data-i18n="rainfall_lbl">Rainfall</b>: <span data-i18n="tip_rain">enter expected total during the growing season.</span></span></div>
         </div>
 
         <div class="divider" style="margin:16px 0"></div>
@@ -360,8 +360,8 @@
         <!-- Saved History -->
         <div class="sidebar-section">
           <div class="sidebar-label" style="display:flex;justify-content:space-between;align-items:center">
-            <span>📁 Recent Predictions</span>
-            <button id="btnClearHistory" class="btn btn-sm btn-outline" style="padding:4px 10px;font-size:0.72rem" title="Clear history">Clear</button>
+            <span data-i18n="recent_h">📁 Recent Predictions</span>
+            <button id="btnClearHistory" class="btn btn-sm btn-outline" style="padding:4px 10px;font-size:0.72rem" title="Clear history" data-i18n="clear_btn">Clear</button>
           </div>
           <div class="history-list" id="historyList">
             <p class="no-history">No saved predictions yet.</p>

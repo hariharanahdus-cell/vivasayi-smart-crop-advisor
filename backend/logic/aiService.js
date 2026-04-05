@@ -34,7 +34,8 @@ class AIService {
 
       Based on this, return a JSON array of the top 3 most suitable crops.
       For each crop, provide:
-      - name (must be a common crop name, e.g., 'Rice')
+      - id (MUST strictly be the English name, e.g., 'Rice', 'Coconut')
+      - name (The crop name in ${lang === 'ta' ? 'TAMIL' : 'ENGLISH'})
       - yield (estimated tons per hectare, realistic)
       - confidence (0-100 percentage)
       - insight (one sentence on why it fits - IMPORTANT: WRITE THIS IN ${lang === 'ta' ? 'TAMIL' : 'ENGLISH'})

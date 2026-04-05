@@ -41,9 +41,9 @@ router.post("/", async (req, res) => {
       const aiResults = await aiService.getPrediction(input, lang || "en");
       if (aiResults && Array.isArray(aiResults)) {
         yieldResults = aiResults.map(res => {
-          const matchingCrop = crops.find(c => c.name.toLowerCase() === res.name.toLowerCase());
+          const matchingCrop = crops.find(c => c.name.toLowerCase() === (res.id || res.name).toLowerCase());
           return {
-            crop: res.name,
+            crop: res.name, // Use the localized name
             icon: matchingCrop ? matchingCrop.icon : "🌱",
             yield: res.yield,
             confidence: res.confidence || 85,
