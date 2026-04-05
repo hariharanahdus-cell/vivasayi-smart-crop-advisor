@@ -18,7 +18,7 @@ class AIService {
   /**
    * Get crop prediction based on soil and weather data
    */
-  async getPrediction(data) {
+  async getPrediction(data, lang = "en") {
     if (!groq) return null; // Use local fallback
 
     const { soilType, soilPH, N, P, K, temperature, rainfall, location, startMonth, endMonth } = data;
@@ -37,8 +37,8 @@ class AIService {
       - name (must be a common crop name, e.g., 'Rice')
       - yield (estimated tons per hectare, realistic)
       - confidence (0-100 percentage)
-      - insight (one sentence on why it fits)
-      - risks (one sentence on potential challenges)
+      - insight (one sentence on why it fits - IMPORTANT: WRITE THIS IN ${lang === 'ta' ? 'TAMIL' : 'ENGLISH'})
+      - risks (one sentence on potential challenges - IMPORTANT: WRITE THIS IN ${lang === 'ta' ? 'TAMIL' : 'ENGLISH'})
 
       Return ONLY the JSON. No preamble.
     `;
@@ -62,13 +62,15 @@ class AIService {
   /**
    * Get detailed recommendations and best practices
    */
-  async getRecommendations(cropName, data) {
+  async getRecommendations(cropName, data, lang = "en") {
     if (!groq) return null;
 
     const prompt = `
       As an expert Agricultural AI, provide a short, professional recommendation for growing ${cropName} in ${data.location || "this area"}.
       Soil: ${data.soilType}, pH: ${data.soilPH}, NPK: ${data.N}-${data.P}-${data.K}.
       Temp: ${data.temperature}°C, Rainfall: ${data.rainfall}mm.
+
+      IMPORTANT: For the specific values below, provide the advice in ${lang === 'ta' ? 'TAMIL (தமிழ்)' : 'ENGLISH'}.
 
       Return a JSON object with:
       - soilManagement (one advice)

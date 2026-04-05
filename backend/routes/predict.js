@@ -11,7 +11,7 @@ const aiService = require("../logic/aiService");
  */
 router.post("/", async (req, res) => {
   try {
-    const { soilType, soilPH, N, P, K, Ca, Mg, S, temperature, rainfall, location, startMonth, endMonth } = req.body;
+    const { soilType, soilPH, N, P, K, Ca, Mg, S, temperature, rainfall, location, startMonth, endMonth, lang } = req.body;
 
     if (!soilType || soilPH === undefined || N === undefined || P === undefined || K === undefined || temperature === undefined || rainfall === undefined || startMonth === undefined || endMonth === undefined) {
       return res.status(400).json({ error: "Missing required input fields." });
@@ -38,7 +38,7 @@ router.post("/", async (req, res) => {
     let isAIPowered = false;
 
     try {
-      const aiResults = await aiService.getPrediction(input);
+      const aiResults = await aiService.getPrediction(input, lang || "en");
       if (aiResults && Array.isArray(aiResults)) {
         yieldResults = aiResults.map(res => {
           const matchingCrop = crops.find(c => c.name.toLowerCase() === res.name.toLowerCase());

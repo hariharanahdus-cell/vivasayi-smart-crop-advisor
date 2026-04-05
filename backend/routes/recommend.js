@@ -11,7 +11,7 @@ const aiService = require("../logic/aiService");
  */
 router.post("/", async (req, res) => {
   try {
-    const { soilType, soilPH, N, P, K, Ca, Mg, S, temperature, rainfall, startMonth, endMonth } = req.body;
+    const { soilType, soilPH, N, P, K, Ca, Mg, S, temperature, rainfall, location, startMonth, endMonth, lang } = req.body;
 
     if (!soilType || soilPH === undefined || N === undefined || P === undefined || K === undefined || temperature === undefined || rainfall === undefined || startMonth === undefined || endMonth === undefined) {
       return res.status(400).json({ error: "Missing required input fields." });
@@ -57,14 +57,12 @@ router.post("/", async (req, res) => {
 
     const top3 = recommendations.slice(0, 3);
 
-    // ── AI Advice for Top 3 ───────────────────────
+    // ── AI Advice for Top 3 (Now Parallel & Faster!) ────────────────
     try {
-      for (const rec of top3) {
-        const aiAdvice = await aiService.getRecommendations(rec.name, input);
-        if (aiAdvice) {
-          rec.aiAdvice = aiAdvice;
-        }
-      }
+      await Promise.all(top3.map(async (rec) => {
+        const aiAdvice = await aiService.getRecommendations(rec.name || rec.crop, input, lang || "en");
+        if (aiAdvice) rec.aiAdvice = aiAdvice;
+      }));
     } catch (aiError) {
       console.warn("AI Recommendation failed:", aiError.message);
     }

@@ -180,7 +180,8 @@ function initFormPage() {
       rainfall:    parseFloat(document.getElementById('rainfall').value),
       location:    document.getElementById('location').value || 'Your Farm',
       startMonth:  parseMonth(document.getElementById('startMonth').value),
-      endMonth:    parseMonth(document.getElementById('endMonth').value)
+      endMonth:    parseMonth(document.getElementById('endMonth').value),
+      lang:        window.i18n.getLang()
     };
 
     showSpinner(true);
@@ -449,11 +450,11 @@ function renderRecCard(c, i) {
   if (c.aiAdvice) {
     aiHtml = `
       <div class="ai-advice-box" style="margin-top:12px; border-left:3px solid var(--green-400); padding-left:12px; background: rgba(34,197,94,0.05); border-radius:4px; padding-top:8px; padding-bottom:8px">
-        <div style="font-size:0.75rem; color:var(--green-500); font-weight:700; text-transform:uppercase; margin-bottom:4px">🤖 AI Expert Advice</div>
+        <div style="font-size:0.75rem; color:var(--green-500); font-weight:700; text-transform:uppercase; margin-bottom:4px">🤖 ${window.i18n.t('ai_advice_header')}</div>
         <div style="font-size:0.85rem; color:var(--text-muted); line-height:1.4">
-          <b>💧 Water:</b> ${c.aiAdvice.waterManagement}<br/>
-          <b>🧪 NPK:</b> ${c.aiAdvice.fertilizerAdvice}<br/>
-          <b>💡 Pro-Tip:</b> ${c.aiAdvice.generalTip}
+          <b>💧 ${window.i18n.t('water')}:</b> ${c.aiAdvice.waterManagement}<br/>
+          <b>🧪 ${window.i18n.t('fertilizer')}:</b> ${c.aiAdvice.fertilizerAdvice}<br/>
+          <b>💡 ${window.i18n.t('pro_tip')}:</b> ${c.aiAdvice.generalTip}
         </div>
       </div>
     `;

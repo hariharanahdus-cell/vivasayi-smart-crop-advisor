@@ -223,6 +223,9 @@
       <a href="form.html">Get Prediction</a>
       <a href="#features">Features</a>
       <a href="#how">How it Works</a>
+      <button onclick="window.i18n.setLang(window.i18n.getLang() === 'en' ? 'ta' : 'en')" class="btn btn-sm btn-outline" style="margin-left:12px; font-size: 0.78rem;">
+        <span id="langToggleBtn">தமிழ்</span>
+      </button>
     </div>
     <div class="hamburger" id="hamburger" onclick="toggleNav()">
       <span></span><span></span><span></span>
@@ -408,7 +411,11 @@
   </div>
 </footer>
 
+<script src="js/translations.js"></script>
 <script>
+  // Language initialization
+  document.getElementById('langToggleBtn').textContent = window.i18n.t('lang_toggle');
+
   function toggleNav() {
     document.getElementById('navLinks').classList.toggle('open');
   }

@@ -144,6 +144,9 @@
       <a href="index.html">Home</a>
       <a href="form.html">Get Prediction</a>
       <a href="results.html" class="active">Results</a>
+      <button onclick="window.i18n.setLang(window.i18n.getLang() === 'en' ? 'ta' : 'en')" class="btn btn-sm btn-outline" style="margin-left:12px; font-size: 0.78rem;">
+        <span id="langToggleBtn">தமிழ்</span>
+      </button>
     </div>
     <div class="hamburger" onclick="toggleNav()"><span></span><span></span><span></span></div>
   </div>
@@ -165,8 +168,11 @@
   <div class="container"><p>🌾 Smart Crop Advisor &nbsp;·&nbsp; Built to empower Indian farmers</p></div>
 </footer>
 
+<script src="js/translations.js"></script>
 <script src="js/app.js"></script>
 <script>
+  // Language initialization
+  document.getElementById('langToggleBtn').textContent = window.i18n.t('lang_toggle');
   function toggleNav() { document.getElementById('navLinks').classList.toggle('open'); }
 </script>
 </body>
