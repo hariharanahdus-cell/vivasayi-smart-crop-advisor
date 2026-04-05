@@ -3,7 +3,7 @@
  * Handles form validation, API calls, results rendering, charts, and history.
  */
 
-const API_BASE = 'http://localhost:3000';
+const API_BASE = window.location.origin;
 
 // ══════════════════════════════════════════════
 //  Utilities
@@ -444,6 +444,21 @@ function renderRecCard(c, i) {
   const medals = ['🥇', '🥈', '🥉'];
   const isPositive = (c.profit || 0) >= 0;
 
+  // New: AI Advice UI
+  let aiHtml = '';
+  if (c.aiAdvice) {
+    aiHtml = `
+      <div class="ai-advice-box" style="margin-top:12px; border-left:3px solid var(--green-400); padding-left:12px; background: rgba(34,197,94,0.05); border-radius:4px; padding-top:8px; padding-bottom:8px">
+        <div style="font-size:0.75rem; color:var(--green-500); font-weight:700; text-transform:uppercase; margin-bottom:4px">🤖 AI Expert Advice</div>
+        <div style="font-size:0.85rem; color:var(--text-muted); line-height:1.4">
+          <b>💧 Water:</b> ${c.aiAdvice.waterManagement}<br/>
+          <b>🧪 NPK:</b> ${c.aiAdvice.fertilizerAdvice}<br/>
+          <b>💡 Pro-Tip:</b> ${c.aiAdvice.generalTip}
+        </div>
+      </div>
+    `;
+  }
+
   return `
     <div class="rec-card">
       <div class="rec-card-header">
@@ -451,7 +466,7 @@ function renderRecCard(c, i) {
         <div>
           <div style="display:flex;align-items:center;gap:8px">
             <div class="rank-badge rank-${i + 1}">${i + 1}</div>
-            <span class="rec-crop-name">${c.crop}</span>
+            <span class="rec-crop-name">${c.name}</span>
           </div>
           <div class="rec-crop-tag">${medals[i]} Rank #${i + 1} Recommendation</div>
         </div>
@@ -479,6 +494,8 @@ function renderRecCard(c, i) {
           <span class="rec-row-val ${isPositive ? 'text-green' : 'text-red'}" style="font-size:1rem">${formatINR(c.profit)}</span>
         </div>
       </div>
+
+      ${aiHtml}
 
       <div class="rec-score-bar">
         <div class="rec-score-label">

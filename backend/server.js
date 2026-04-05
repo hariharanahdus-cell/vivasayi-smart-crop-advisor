@@ -33,11 +33,11 @@ app.get("*", (req, res) => {
   res.sendFile(path.join(__dirname, "../frontend/index.html"));
 });
 
-// ── Start Server ───────────────────────────────────────────
-app.listen(PORT, () => {
-  console.log(`\n🌱 Smart Crop Advisor backend running at http://localhost:${PORT}`);
-  console.log(`📡 API Endpoints:`);
-  console.log(`   POST http://localhost:${PORT}/predict`);
-  console.log(`   POST http://localhost:${PORT}/profit`);
-  console.log(`   POST http://localhost:${PORT}/recommend\n`);
-});
+// ── Export/Start ───────────────────────────────────────────
+if (require.main === module) {
+  app.listen(PORT, () => {
+    console.log(`\n🌱 Smart Crop Advisor backend running at http://localhost:${PORT}`);
+  });
+}
+
+module.exports = app;

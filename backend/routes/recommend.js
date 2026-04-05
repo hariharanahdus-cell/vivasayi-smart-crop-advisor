@@ -2,8 +2,14 @@ const express = require("express");
 const router = express.Router();
 const crops = require("../data/crops");
 const { calculateYield, scoreCrop } = require("../logic/yieldEngine");
+const aiService = require("../logic/aiService");
 
-router.post("/", (req, res) => {
+/**
+ * POST /recommend
+ * Analyzes soil and weather to provide the most profitable and suitable crops.
+ * Enhances the top 3 with AI-powered agricultural advice.
+ */
+router.post("/", async (req, res) => {
   try {
     const { soilType, soilPH, N, P, K, Ca, Mg, S, temperature, rainfall, startMonth, endMonth } = req.body;
 
@@ -35,27 +41,37 @@ router.post("/", (req, res) => {
       const profitMargin = revenue > 0 ? (netProfit / crop.cost) * 100 : -100;
 
       return {
-        crop: crop.name,
+        crop: crop.name, // Restored 'crop' for frontend compatibility
         icon: crop.icon,
         suitability: suitScore,
         yield: yieldAmt,
         pricePerTon: crop.price,
-        revenue: revenue,
+        revenue: parseFloat(revenue.toFixed(2)),
         cost: crop.cost,
-        profit: netProfit,
-        profitMargin: profitMargin
+        profit: parseFloat(netProfit.toFixed(2)),
+        profitMargin: parseFloat(profitMargin.toFixed(1))
       };
     });
 
-    recommendations.sort((a, b) => {
-      const primaryDiff = b.profit - a.profit;
-      if (primaryDiff !== 0) return primaryDiff;
-      return b.suitability - a.suitability;
-    });
+    recommendations.sort((a, b) => b.profit - a.profit || b.suitability - a.suitability);
+
+    const top3 = recommendations.slice(0, 3);
+
+    // ── AI Advice for Top 3 ───────────────────────
+    try {
+      for (const rec of top3) {
+        const aiAdvice = await aiService.getRecommendations(rec.name, input);
+        if (aiAdvice) {
+          rec.aiAdvice = aiAdvice;
+        }
+      }
+    } catch (aiError) {
+      console.warn("AI Recommendation failed:", aiError.message);
+    }
 
     res.json({
       success: true,
-      top3: recommendations.slice(0, 3),
+      top3,
       all: recommendations
     });
   } catch (err) {

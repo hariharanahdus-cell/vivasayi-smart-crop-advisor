@@ -52,32 +52,38 @@ Vivasayi/
 - [Node.js](https://nodejs.org/) v16 or higher
 - npm (comes with Node.js)
 
-### 1. Install Dependencies
+### Local Setup
 
-```bash
-cd backend
-npm install
-```
+1. **Install Dependencies**
+   ```bash
+   npm run install-all
+   ```
 
-### 2. Start the Backend Server
+2. **Start the Application**
+   ```bash
+   npm start
+   ```
+   The app will be available at **http://localhost:3000**
 
-```bash
-npm start
-```
+---
 
-The server will start at **http://localhost:3000**
+## ☁️ Deployment
 
-> For development with auto-reload:
-> ```bash
-> npm run dev
-> ```
+### Deploy to Render (Server-based)
+1. Create a new **Web Service** on [Render](https://render.com).
+2. Connect your GitHub repository.
+3. Use the following settings:
+   - **Environment**: `Node`
+   - **Build Command**: `npm install && cd backend && npm install`
+   - **Start Command**: `npm start`
+4. Add any environment variables defined in your `.env` file.
 
-### 3. Open the App
-
-Open your browser and go to:
-```
-http://localhost:3000
-```
+### Deploy to Vercel (Serverless)
+1. Install Vercel CLI: `npm i -g vercel`
+2. Run `vercel` in the project root.
+3. Vercel will automatically detect the `vercel.json` configuration and deploy:
+   - **Frontend**: Served from `/frontend`
+   - **Backend API**: Served from `/api/index.js` (Express bridged)
 
 ---
 

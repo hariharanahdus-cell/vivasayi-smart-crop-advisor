@@ -1,0 +1,14 @@
+{
+  "name": "vivasayi-smart-crop-advisor",
+  "version": "1.0.0",
+  "description": "Smart Crop Advisor project - Unified deployment",
+  "main": "backend/server.js",
+  "scripts": {
+    "start": "node backend/server.js",
+    "install-all": "npm install && cd backend && npm install",
+    "dev": "cd backend && npm run dev"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC"
+}
