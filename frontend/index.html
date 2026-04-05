@@ -221,8 +221,8 @@
     <div class="nav-links" id="navLinks">
       <a href="index.html" class="active" data-i18n="nav_home">Home</a>
       <a href="form.html" data-i18n="nav_predict">Get Prediction</a>
-      <a href="#features" data-i18n="features">Features</a>
-      <a href="#how">How it Works</a>
+      <a href="#features" data-i18n="nav_features">Features</a>
+      <a href="#how" data-i18n="nav_how">How it Works</a>
       <button onclick="window.i18n.setLang(window.i18n.getLang() === 'en' ? 'ta' : 'en')" class="btn btn-sm btn-outline" style="margin-left:12px; font-size: 0.78rem;">
         <span id="langToggleBtn">தமிழ்</span>
       </button>
@@ -240,7 +240,7 @@
       <!-- Left content -->
       <div class="fade-up">
         <div class="hero-eyebrow">
-          <span>🌾</span> AI-Powered Crop Intelligence
+          <span>🌾</span> <span data-i18n="hero_eyebrow">AI-Powered Crop Intelligence</span>
         </div>
         <h1 class="hero-title" data-i18n="hero_title">
           Grow Smarter,<br/>
@@ -263,14 +263,14 @@
         <div class="hero-stats">
           <div>
             <div class="hero-stat-value">8+</div>
-            <div class="hero-stat-label">Crop Varieties</div>
+            <div class="hero-stat-label" data-i18n="stats_varieties">Crop Varieties</div>
           </div>
           <div>
             <div class="hero-stat-value">99%</div>
-            <div class="hero-stat-label">Prediction Accuracy</div>
+            <div class="hero-stat-label" data-i18n="stats_accuracy">Prediction Accuracy</div>
           </div>
           <div>
-            <div class="hero-stat-value">Free</div>
+            <div class="hero-stat-value" data-i18n="stats_free">Free</div>
             <div class="hero-stat-label">Always Free to Use</div>
           </div>
         </div>

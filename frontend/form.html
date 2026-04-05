@@ -249,10 +249,10 @@
         </div>
 
         <!-- Secondary Nutrients -->
-        <div class="form-section-title" style="margin-top:8px">🧱 Secondary Nutrients (kg/ha)</div>
+        <div class="form-section-title" style="margin-top:8px" data-i18n="secondary_nutrients_h">🧱 Secondary Nutrients (kg/ha)</div>
         <div class="col-3">
           <div class="form-group">
-            <label class="form-label" for="Ca">Calcium (Ca)</label>
+            <label class="form-label" for="Ca" data-i18n="calcium_lbl">Calcium (Ca)</label>
             <div class="input-group">
               <input class="form-control" type="number" id="Ca" name="Ca"
                 placeholder="e.g. 20" min="0" max="1500" step="1" value="0" />
@@ -261,7 +261,7 @@
             <span class="form-error">Enter calcium (0–1500).</span>
           </div>
           <div class="form-group">
-            <label class="form-label" for="Mg">Magnesium (Mg)</label>
+            <label class="form-label" for="Mg" data-i18n="magnesium_lbl">Magnesium (Mg)</label>
             <div class="input-group">
               <input class="form-control" type="number" id="Mg" name="Mg"
                 placeholder="e.g. 10" min="0" max="1500" step="1" value="0" />
@@ -270,7 +270,7 @@
             <span class="form-error">Enter magnesium (0–1500).</span>
           </div>
           <div class="form-group">
-            <label class="form-label" for="S">Sulfur (S)</label>
+            <label class="form-label" for="S" data-i18n="sulfur_lbl">Sulfur (S)</label>
             <div class="input-group">
               <input class="form-control" type="number" id="S" name="S"
                 placeholder="e.g. 15" min="0" max="1500" step="1" value="0" />
@@ -305,12 +305,12 @@
 
         <div class="col-2">
           <div class="form-group">
-            <label class="form-label" for="startMonth">Start Month <span class="required">*</span></label>
+            <label class="form-label" for="startMonth" data-i18n="start_month_lbl">Start Month <span class="required">*</span></label>
             <input class="form-control" type="text" id="startMonth" name="startMonth" placeholder="e.g. 6 or June" required />
             <span class="form-error">Type valid month.</span>
           </div>
           <div class="form-group">
-            <label class="form-label" for="endMonth">End Month <span class="required">*</span></label>
+            <label class="form-label" for="endMonth" data-i18n="end_month_lbl">End Month <span class="required">*</span></label>
             <input class="form-control" type="text" id="endMonth" name="endMonth" placeholder="e.g. 10 or October" required />
             <span class="form-error">Type valid month.</span>
           </div>
@@ -318,7 +318,7 @@
 
         <div class="col-2">
           <div class="form-group">
-            <label class="form-label" for="location">Location / Village</label>
+            <label class="form-label" for="location" data-i18n="location_lbl">Location / Village</label>
             <div class="location-wrap">
               <input class="form-control" type="text" id="location" name="location"
                 placeholder="e.g. Nashik" />
@@ -331,7 +331,7 @@
         <div class="submit-bar">
           <p class="submit-note">⚡ Results appear instantly — no sign-up required.</p>
           <div style="display:flex;gap:12px">
-            <button type="button" class="btn btn-outline" id="btnReset">↺ Reset</button>
+            <button type="button" class="btn btn-outline" id="btnReset" data-i18n="reset_btn">↺ Reset</button>
             <button type="submit" class="btn btn-primary" id="btnSubmit" data-i18n="predict_btn">
               🔍 Predict Yield & Profit
             </button>
