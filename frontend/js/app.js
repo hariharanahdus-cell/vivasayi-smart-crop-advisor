@@ -301,7 +301,7 @@ function initResultsPage() {
     <!-- Summary bar -->
     <div class="summary-bar fade-up">
       <div>
-        <h1>Prediction Results</h1>
+        <h1>${window.i18n.t('nav_predict')}</h1>
         <p class="summary-meta">
           📍 ${input.location} &nbsp;·&nbsp; 🗓️ Growing Window: ${input.startMonth} - ${input.endMonth} &nbsp;·&nbsp;
           🕒 ${new Date(data.timestamp).toLocaleString('en-IN')}
@@ -309,7 +309,7 @@ function initResultsPage() {
       </div>
       <div class="summary-actions">
         <button class="btn btn-outline btn-sm" onclick="saveResultPDF()">💾 Save</button>
-        <a href="form.html" class="btn btn-primary btn-sm">🔄 New Prediction</a>
+        <a href="form.html" class="btn btn-primary btn-sm">🔄 ${window.i18n.t('nav_predict')}</a>
       </div>
     </div>
 
@@ -317,13 +317,13 @@ function initResultsPage() {
     <div class="stats-grid fade-up fade-up-delay-1">
       <div class="stat-card stat-green">
         <div class="stat-icon">🌾</div>
-        <div class="stat-label">Best Crop</div>
+        <div class="stat-label">${window.i18n.t('best_crop')}</div>
         <div class="stat-value" style="font-size:1.5rem">${bestCrop.icon || ''} ${bestCrop.crop || '—'}</div>
         <div class="stat-sub">Highest profit potential</div>
       </div>
       <div class="stat-card stat-blue">
         <div class="stat-icon">⚖️</div>
-        <div class="stat-label">Predicted Yield</div>
+        <div class="stat-label">${window.i18n.t('predicted_yield')}</div>
         <div class="stat-value">${formatNum(bestCrop.yield || 0)} <span style="font-size:1rem;opacity:.6">t/ha</span></div>
         <div class="stat-sub">Tons per hectare</div>
       </div>
@@ -335,7 +335,7 @@ function initResultsPage() {
       </div>
       <div class="stat-card ${(bestCrop.profit || 0) >= 0 ? 'stat-green' : 'stat-purple'}">
         <div class="stat-icon">${(bestCrop.profit || 0) >= 0 ? '📈' : '📉'}</div>
-        <div class="stat-label">Net Profit</div>
+        <div class="stat-label">${window.i18n.t('net_profit')}</div>
         <div class="stat-value" style="font-size:1.5rem">${formatINR(bestCrop.profit || 0)}</div>
         <div class="stat-sub">After cultivation cost</div>
       </div>

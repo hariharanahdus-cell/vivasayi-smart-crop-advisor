@@ -146,8 +146,8 @@
 <div class="page-hero">
   <div class="container">
     <div class="badge badge-green mb-4">📋 Field Data Input</div>
-    <h1 class="page-hero-title">Enter Your Field Details</h1>
-    <p class="section-subtitle">Fill in the form below to get crop yield prediction and profit estimates.</p>
+    <h1 class="page-hero-title" data-i18n="form_title">Enter Your Field Details</h1>
+    <p class="section-subtitle" data-i18n="form_sub">Fill in the form below to get crop yield prediction and profit estimates.</p>
   </div>
 </div>
 
@@ -159,7 +159,7 @@
       <form id="cropForm" novalidate>
 
         <!-- Soil Information -->
-        <div class="form-section-title">🌍 Soil Information</div>
+        <div class="form-section-title" data-i18n="soil_info_h">🌍 Soil Information</div>
         <div class="col-2">
           <div class="form-group">
             <label class="form-label" for="soilType">Soil Type <span class="required">*</span></label>
@@ -217,7 +217,7 @@
         </div>
 
         <!-- NPK Nutrients -->
-        <div class="form-section-title" style="margin-top:8px">🧪 Primary Nutrients (kg/ha)</div>
+        <div class="form-section-title" style="margin-top:8px" data-i18n="nutrients_h">🧪 Primary Nutrients (kg/ha)</div>
         <div class="col-3">
           <div class="form-group">
             <label class="form-label" for="N">Nitrogen (N) <span class="required">*</span></label>
@@ -281,7 +281,7 @@
         </div>
 
         <!-- Weather & Location -->
-        <div class="form-section-title" style="margin-top:8px">🌤️ Weather & Location</div>
+        <div class="form-section-title" style="margin-top:8px" data-i18n="weather_loc_h">🌤️ Weather & Location</div>
         <div class="col-2">
           <div class="form-group">
             <label class="form-label" for="temperature">Temperature <span class="required">*</span></label>
@@ -332,7 +332,7 @@
           <p class="submit-note">⚡ Results appear instantly — no sign-up required.</p>
           <div style="display:flex;gap:12px">
             <button type="button" class="btn btn-outline" id="btnReset">↺ Reset</button>
-            <button type="submit" class="btn btn-primary" id="btnSubmit">
+            <button type="submit" class="btn btn-primary" id="btnSubmit" data-i18n="predict_btn">
               🔍 Predict Yield & Profit
             </button>
           </div>
